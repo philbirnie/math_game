@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Addition Game</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href='https://fonts.googleapis.com/css?family=Bevan' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+	<main>
+		<h1 class="header header--main">The Addition Game</h1>
+		<p class="directions">Answer as many problems as you can in 30 seconds. Speed counts!</p>
+		<h2 class="score" id="score">0</h2>
+		<h3 class="timer" id="timer">0</h3>
+
+		<div class="problem" id="problem">
+			<p class="number number--augend" id="augend">0</p>
+			<p class="number number--addend" id="addend">0</p>
+			<hr />
+
+			<form action="" class="answer">
+				<input type="number" value="" pattern="[0-9]*" class="answer__input" id="answer" />
+			</form>
+		</div>
+
+		<button class="start-game" id="start-game">Start Game</button>
+		<p>You can also press the space bar to start.</p>
+
+		<table class="score-table">
+			<thead>
+			<tr>
+				<th>Speed (s)</th>
+				<th>Points</th>
+			</tr>
+			<tr><td>0.25</td><td>40</td></tr>
+			<tr><td>0.5</td><td>20</td></tr>
+			<tr><td>1</td><td>10</td></tr>
+			<tr><td>2</td><td>5</td></tr>
+			<tr><td>5</td><td>2</td></tr>
+			<tr><td>10 or more</td><td>1</td></tr>
+			</thead>
+			<caption>Score is calculated by diving 10 by the number of seconds required for you to correctly answer</caption>
+		</table>
+	</main>
+	<script src="main-compiled.js"></script>
+</body>
+</html>
