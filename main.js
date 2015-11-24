@@ -17,15 +17,15 @@
         this.augend = 0;
         this.addend = 0;
         this.lastAnswerTime = null;
-
         this.timeout = null;
+
 
         this.init = function() {
             this.bindHandlers();
         };
 
         this.bindHandlers = function() {
-            this.answerElement.addEventListener('keyup', (event) => {
+            this.answerElement.addEventListener('keyup', () => {
                 if (this.isCorrect() && this.isPlaying) {
                     this.addCorrectClass();
                     this.calculateScore();

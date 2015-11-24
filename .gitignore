@@ -1,3 +1,4 @@
 main-compiled.js*
 *.map
 *.css
+compiled/
