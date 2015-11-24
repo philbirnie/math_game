@@ -11,7 +11,7 @@
         this.problemContainer = document.getElementById(properties.problem);
 
         this.maxNumber = 9;
-        this.gameLength = 30;
+        this.gameLength = 2;
         this.score = 0;
         this.isPlaying = false;
         this.augend = 0;
@@ -19,6 +19,7 @@
         this.lastAnswerTime = null;
         this.timeout = null;
         this.problemType = 'A';
+        this.postScoreEndpoint = './postScore.php';
 
         this.init = function() {
             this.bindHandlers();
@@ -45,6 +46,24 @@
                 }
             });
 
+        };
+
+        this.postScore = function(callback) {
+            let xmlhttp,
+                data;
+            // compatible with IE7+, Firefox, Chrome, Opera, Safari
+            xmlhttp = new XMLHttpRequest();
+
+            xmlhttp.open('POST', this.postScoreEndpoint, true);
+            xmlhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+            xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState === 4 && xmlhttp.status === 200) {
+                    callback(xmlhttp);
+                }
+            };
+
+            xmlhttp.send("score=" + this.score);
         };
 
         this.addCorrectClass = function() {
@@ -86,7 +105,7 @@
         };
 
         this.validateAddendOrder = function() {
-            if(this.problemType === 'S' && (this.augend < this.addend)) {
+            if (this.problemType === 'S' && (this.augend < this.addend)) {
                 const minuend = this.addend;
                 const subtrahend = this.augend;
 
@@ -101,7 +120,7 @@
                 this.clearAnswer();
                 return false;
             }
-            if(this.problemType === 'S') {
+            if (this.problemType === 'S') {
                 return answer === this.augend - this.addend;
             }
             return answer === this.augend + this.addend;
@@ -120,6 +139,9 @@
                     }
                     if (secondsRemaining <= 0) {
                         this.stopGame();
+                        this.postScore(function() {
+                            window.console.log('score of ' + this.score + 'posted');
+                        });
                     }
                 }, 1000);
                 this.isPlaying = true;

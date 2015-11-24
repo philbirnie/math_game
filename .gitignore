@@ -2,3 +2,4 @@ main-compiled.js*
 *.map
 *.css
 compiled/
+scores.db
