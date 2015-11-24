@@ -96,6 +96,11 @@ main {
   &--addend {
     &:before {
       content: '+';
+      color: map_get($colors, 'yellow');
+      .S & {
+        content: '-';
+        color: map_get($colors, 'blue');
+      }
       position: absolute;
       left: 15px;
     }

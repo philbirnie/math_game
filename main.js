@@ -1,6 +1,6 @@
 (function(window) {
     'use strict';
-    function AdditionModule(properties) {
+    function MathModule(properties) {
 
         this.scoreElement = document.getElementById(properties.score);
         this.augendElement = document.getElementById(properties.augend);
@@ -18,7 +18,7 @@
         this.addend = 0;
         this.lastAnswerTime = null;
         this.timeout = null;
-
+        this.problemType = 'A';
 
         this.init = function() {
             this.bindHandlers();
@@ -71,15 +71,38 @@
         this.createProblem = function() {
             this.augend = parseInt((Math.random() * (this.maxNumber + 1)), 10);
             this.addend = parseInt((Math.random() * (this.maxNumber + 1)), 10);
+            this.setProblemType();
+            this.setProblemTypeClass();
+
+            this.validateAddendOrder();
 
             this.augendElement.innerHTML = this.augend;
             this.addendElement.innerHTML = this.addend;
         };
 
+        this.setProblemTypeClass = function() {
+            this.problemContainer.className = this.problemContainer.className.replace(/[AS]/, '');
+            this.problemContainer.className += ' ' + this.problemType;
+        };
+
+        this.validateAddendOrder = function() {
+            if(this.problemType === 'S' && (this.augend < this.addend)) {
+                const minuend = this.addend;
+                const subtrahend = this.augend;
+
+                this.augend = minuend;
+                this.addend = subtrahend;
+            }
+        };
+
         this.isCorrect = function() {
             const answer = parseInt(this.answerElement.value, 10);
-            if ((answer > (this.maxNumber + 1) * 2) || isNaN(answer))  {
+            if ((answer > (this.maxNumber + 1) * 2) || isNaN(answer)) {
                 this.clearAnswer();
+                return false;
+            }
+            if(this.problemType === 'S') {
+                return answer === this.augend - this.addend;
             }
             return answer === this.augend + this.addend;
         };
@@ -124,12 +147,16 @@
                 this.toggleButtonElement.innerHTML = 'Start Game';
             }
         };
+
+        this.setProblemType = function() {
+            this.problemType = Math.random() < 0.5 ? 'A' : 'S';
+        };
     }
 
-    window.AdditionModule = AdditionModule;
+    window.MathModule = MathModule;
 })(window);
 
-const additionModule = new AdditionModule(
+const mathModule = new MathModule(
     {
         score: 'score',
         augend: 'augend',
@@ -140,4 +167,4 @@ const additionModule = new AdditionModule(
         problem: 'problem'
     });
 
-additionModule.init();
+mathModule.init();
